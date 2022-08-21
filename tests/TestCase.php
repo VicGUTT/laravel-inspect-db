@@ -1,0 +1,78 @@
+<?php
+
+declare(strict_types=1);
+
+namespace VicGutt\InspectDb\Tests;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\File;
+use Orchestra\Testbench\TestCase as Orchestra;
+
+abstract class TestCase extends Orchestra
+{
+    protected const DEFAULT_CONNECTION = 'mysql';
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     */
+    public function getEnvironmentSetUp($app): void
+    {
+        config()->set('database.default', self::DEFAULT_CONNECTION);
+        config()->set('database.connections.sqlite.database', $this->getTestSupportDirectory('/database/database.sqlite'));
+        config()->set('database.connections.mysql', array_merge(config('database.connections.mysql'), [
+            'database' => 'laravel_inspect_db_testing',
+            'username' => 'root',
+        ]));
+        config()->set('database.connections.pgsql', array_merge(config('database.connections.pgsql'), [
+            'database' => 'laravel_inspect_db_testing',
+            'username' => 'postgres',
+            'password' => 'root',
+        ]));
+
+        $this->loadMigrations();
+    }
+
+    protected function loadMigrations(): void
+    {
+        $connections = include $this->getTestDirectory('/Datasets/testable_connections.php');
+
+        foreach ($connections as $connection) {
+            $this->loadMigrationsFromConnection(DB::connection($connection));
+        }
+    }
+
+    protected function loadMigrationsFromConnection(Connection $connection): void
+    {
+        foreach (File::files($this->getTestSupportDirectory('/database/migrations')) as $file) {
+            $tableName = Str::between($file->getFilename(), 'create_', '_table');
+
+            if ($connection->getSchemaBuilder()->hasTable($tableName)) {
+                // \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+                // \Illuminate\Support\Facades\Schema::drop($tableName);
+                // \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
+                continue;
+            }
+
+            config()->set('database.default', $connection->getName());
+
+            (include $file->getRealPath())->up($connection->getName());
+        }
+
+        config()->set('database.default', self::DEFAULT_CONNECTION);
+    }
+
+    protected function getTestSupportDirectory(string $path = ''): string
+    {
+        return $this->getTestDirectory("/TestSupport/{$path}");
+    }
+
+    protected function getTestDirectory(string $path = ''): string
+    {
+        return str_replace(['\\', '//'], '/', realpath(__DIR__) . '/' . $path);
+    }
+}
