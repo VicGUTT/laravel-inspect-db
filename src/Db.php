@@ -12,6 +12,9 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager as Schema;
 
 class Db
 {
+    /**
+     * Retrieve a database connection.
+     */
     public static function connection(null|string|Connection $connection = null): Connection
     {
         if ($connection instanceof Connection) {
@@ -22,6 +25,9 @@ class Db
     }
 
     /**
+     * Retrieve the Doctrine Schema Manager of a given
+     * database connection.
+     *
      * @return Schema<Platform>
      */
     public static function schema(null|string|Connection $connection = null): Schema
@@ -30,7 +36,10 @@ class Db
     }
 
     /**
+     * Retrieve the tables of a given database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
+     * @return TableSchema[]
      */
     public static function tables(null|string|Connection|Schema $schema = null): array
     {
@@ -38,6 +47,8 @@ class Db
     }
 
     /**
+     * Retrieve a particular table for a given database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function table(string|TableSchema $name, null|string|Connection|Schema $schema = null): TableSchema

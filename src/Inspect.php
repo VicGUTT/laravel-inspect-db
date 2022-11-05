@@ -28,6 +28,8 @@ class Inspect
     // }
 
     /**
+     * Retrieve the tables of a given database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function tables(null|string|Connection|Schema $schema = null): TableCollection
@@ -36,6 +38,8 @@ class Inspect
     }
 
     /**
+     * Retrieve a particular table for a given database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function table(string|TableSchema $name, null|string|Connection|Schema $schema = null): Table
@@ -44,6 +48,9 @@ class Inspect
     }
 
     /**
+     * Retrieve the columns of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function columns(string|TableSchema $table, null|string|Connection|Schema $schema = null): ColumnCollection
@@ -52,6 +59,9 @@ class Inspect
     }
 
     /**
+     * Retrieve the indexes of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function indexes(string|TableSchema $table, null|string|Connection|Schema $schema = null): IndexCollection
@@ -60,6 +70,9 @@ class Inspect
     }
 
     /**
+     * Retrieve the foreign keys of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function foreignKeys(string|TableSchema $table, null|string|Connection|Schema $schema = null): ForeignKeyCollection
@@ -68,6 +81,9 @@ class Inspect
     }
 
     /**
+     * Retrieve a particular column of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function column(string $name, string|TableSchema $table, null|string|Connection|Schema $schema = null): ?Column
@@ -76,6 +92,9 @@ class Inspect
     }
 
     /**
+     * Retrieve a particular index of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function index(string $name, string|TableSchema $table, null|string|Connection|Schema $schema = null): ?Index
@@ -84,6 +103,9 @@ class Inspect
     }
 
     /**
+     * Retrieve a particular foreign key of a particular table for a given
+     * database connection.
+     *
      * @param null|string|Connection|Schema<Platform> $schema
      */
     public static function foreignKey(string $name, string|TableSchema $table, null|string|Connection|Schema $schema = null): ?ForeignKey

@@ -14,7 +14,7 @@ Here's a quick example:
 ```php
 use VicGutt\InspectDb\Inspect;
 
-// On a default Laravel "users" table, running:
+// On a default Laravel "users" table using the "mysql" connection, running:
 Inspect::table($name = 'users', $connectionOrSchemaManagerOrNull = 'mysql')->toArray();
 
 // would return the following:
@@ -54,21 +54,147 @@ composer require vicgutt/laravel-inspect-db
 
 The `VicGutt\InspectDb\Inspect` class is the main entry point of the package. It allows you to retrieve information about tables, a table's columns, it's indexes and foreign keys.
 
+### Retrieving the tables of a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Collections\Entities\TableCollection`
+Inspect::tables();
+```
+
+Here, as no database connection was specified, the default configured database connection will be used.
+
+### Retrieving a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Entities\Table`
+Inspect::table('users');
+```
+
+Here, as no database connection was specified as second argument, the default configured database connection will be used.
+
+### Retrieving the columns of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Collections\Entities\ColumnCollection`
+Inspect::columns('users');
+```
+
+Here, as no database connection was specified as second argument, the default configured database connection will be used.
+
+### Retrieving the indexes of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Collections\Entities\IndexCollection`
+Inspect::indexes('users');
+```
+
+Here, as no database connection was specified as second argument, the default configured database connection will be used.
+
+### Retrieving the foreign keys of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Collections\Entities\ForeignKeyCollection`
+Inspect::foreignKeys('users');
+```
+
+Here, as no database connection was specified as second argument, the default configured database connection will be used.
+
+### Retrieving a particular column of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Entities\Column` or null
+Inspect::column('id', 'users');
+```
+
+Here, as no database connection was specified as third argument, the default configured database connection will be used.
+
+### Retrieving a particular index of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Entities\Index` or null
+Inspect::index('PRIMARY', 'users');
+```
+
+Here, as no database connection was specified as third argument, the default configured database connection will be used.
+
+### Retrieving a particular foreign key of a particular table for a given database connection
+
+```php
+use VicGutt\InspectDb\Inspect;
+
+// returns an instance of `VicGutt\InspectDb\Entities\ForeignKey` or null
+Inspect::foreignKey('posts_user_id_foreign', 'posts');
+```
+
+Here, as no database connection was specified as third argument, the default configured database connection will be used.
+
+## Collections
+
+The collections provided by this package all extend the abstract `VicGutt\InspectDb\Collections\Entities\EntityCollection` class which itself extends from the default Laravel collection _(`Illuminate\Support\Collection`)_.
+
+The available collections are:
+- VicGutt\InspectDb\Collections\Entities\\`TableCollection`
+- VicGutt\InspectDb\Collections\Entities\\`ColumnCollection`
+- VicGutt\InspectDb\Collections\Entities\\`IndexCollection`
+- VicGutt\InspectDb\Collections\Entities\\`ForeignKeyCollection`
+
+The above collections differ slightly from the default Laravel collection and behavior you might be used to. That is, our collections internal items can only ever be an array of the entities they represent. As an example, the `TableCollection` items can only ever be an array of `Table`s.
+
+In usage, this translates to type errors being thrown when some collection methods are used:
+
+```php
+/**
+ * The following will throw a `TypeError` with a message specifying the "$item" given
+ * is a string rather than instances of `Doctrine\DBAL\Schema\Table` or `VicGutt\InspectDb\Entities\Table`.
+ */
+Inspect::tables()->map(fn (Table $table): string => $table->name);
+Inspect::tables()->pluck('name');
+```
+
+The solution to this is to convert our Collection into a default Laravel collection prior to calling methods which returns new instances of the current collection but with mutated items:
+
+```php
+/**
+ * Now, all is well.
+ */
+Inspect::tables()->toBase()->map(fn (Table $table): string => $table->name);
+Inspect::tables()->toBase()->pluck('name');
+```
+
+This behavior, although admittedly surprising, helps guarantee a collection of Xs only ever actually contains Xs.
+
+## Entities
+
+Entities are meant to represent units present in a given database.
+<!-- or the database itself (--\> for when we can do Inspect::database(...)) -->
+The available entities are:
+- [VicGutt\InspectDb\Entities\\`Table`](/blob/main/src/Entities/Table.php)
+- [VicGutt\InspectDb\Entities\\`Column`](/blob/main/src/Entities/Column.php)
+- [VicGutt\InspectDb\Entities\\`Index`](/blob/main/src/Entities/Index.php)
+- [VicGutt\InspectDb\Entities\\`ForeignKey`](/blob/main/src/Entities/ForeignKey.php)
+
+Click on any of the listed entities above to learn more about the exposed properties and methods.
+
 ---
 
 ### TODO:
-- Finish README
 - Setup GitHub action test workflow
 
 ---
-
-<!-- ### Retrieving a database connection's tables
-
-To retrieve all tables of a given database connection, call the `tables` static method:
-
-```php
-...
-``` -->
 
 ## Testing
 
