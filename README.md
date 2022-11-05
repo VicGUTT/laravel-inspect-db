@@ -182,10 +182,10 @@ This behavior, although admittedly surprising, helps guarantee a collection of X
 Entities are meant to represent units present in a given database.
 <!-- or the database itself (--\> for when we can do Inspect::database(...)) -->
 The available entities are:
-- [VicGutt\InspectDb\Entities\\`Table`](/blob/main/src/Entities/Table.php)
-- [VicGutt\InspectDb\Entities\\`Column`](/blob/main/src/Entities/Column.php)
-- [VicGutt\InspectDb\Entities\\`Index`](/blob/main/src/Entities/Index.php)
-- [VicGutt\InspectDb\Entities\\`ForeignKey`](/blob/main/src/Entities/ForeignKey.php)
+- [VicGutt\InspectDb\Entities\\`Table`](/src/Entities/Table.php)
+- [VicGutt\InspectDb\Entities\\`Column`](/src/Entities/Column.php)
+- [VicGutt\InspectDb\Entities\\`Index`](/src/Entities/Index.php)
+- [VicGutt\InspectDb\Entities\\`ForeignKey`](/src/Entities/ForeignKey.php)
 
 Click on any of the listed entities above to learn more about the exposed properties and methods.
 
