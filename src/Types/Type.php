@@ -73,7 +73,7 @@ class Type implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Convert the object into something JSON serializable.
+     * Convert the instance into something JSON serializable.
      */
     public function jsonSerialize(): array
     {
@@ -81,7 +81,7 @@ class Type implements Arrayable, Jsonable, JsonSerializable
     }
 
     /**
-     * Convert the component to its string representation.
+     * Convert the instance to its string representation.
      */
     public function __toString(): string
     {
