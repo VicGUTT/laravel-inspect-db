@@ -64,7 +64,7 @@ class Db
      * @param null|string|Connection|Schema<Platform> $schema
      * @return Schema<Platform>
      */
-    private static function getSchema(null|string|Connection|Schema $schema = null): Schema
+    protected static function getSchema(null|string|Connection|Schema $schema = null): Schema
     {
         if (!($schema instanceof Schema)) {
             $schema = self::schema($schema);
