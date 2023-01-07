@@ -6,10 +6,13 @@ namespace VicGutt\InspectDb\Types;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use VicGutt\PhpEnhancedEnum\Concerns\Enumerable;
 use VicGutt\InspectDb\Contracts\Types\TypeEnumContract;
 
 enum PhpTypeEnum: string implements TypeEnumContract
 {
+    use Enumerable;
+
     case NULL = 'null';
     case BOOL = 'bool';
     case INT = 'int';

@@ -7,8 +7,9 @@ namespace VicGutt\InspectDb\Contracts\Types;
 use VicGutt\InspectDb\Types\PhpTypeEnum;
 use Doctrine\DBAL\Types\Type as DoctrineType;
 use VicGutt\InspectDb\Types\JavaScriptTypeEnum;
+use VicGutt\PhpEnhancedEnum\Contracts\EnumerableContract;
 
-interface TypeEnumContract
+interface TypeEnumContract extends EnumerableContract
 {
     public static function fromDoctrineType(DoctrineType $type): self;
 

@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace VicGutt\InspectDb\Types;
 
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use VicGutt\PhpEnhancedEnum\Concerns\Enumerable;
 use VicGutt\InspectDb\Contracts\Types\TypeEnumContract;
 
 enum JavaScriptTypeEnum: string implements TypeEnumContract
 {
+    use Enumerable;
+
     case NULL = 'null';
     case UNDEFINED = 'undefined';
     case BOOLEAN = 'boolean';

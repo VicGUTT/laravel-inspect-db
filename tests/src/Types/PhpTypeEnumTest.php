@@ -14,8 +14,8 @@ it('implements `VicGutt\InspectDb\Contracts\Types\TypeEnumContract`', function (
     expect(is_subclass_of(PhpTypeEnum::class, TypeEnumContract::class))->toEqual(true);
 });
 
-it('PhpTypeEnum::cases()', function (): void {
-    expect(array_map(fn (PhpTypeEnum $case): string => $case->value, PhpTypeEnum::cases()))->toEqual([
+it('PhpTypeEnum::values()', function (): void {
+    expect(PhpTypeEnum::values())->toEqual([
         'null',
         'bool',
         'int',

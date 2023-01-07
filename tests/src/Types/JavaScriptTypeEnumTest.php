@@ -13,17 +13,17 @@ it('implements `VicGutt\InspectDb\Contracts\Types\TypeEnumContract`', function (
     expect(is_subclass_of(JavaScriptTypeEnum::class, TypeEnumContract::class))->toEqual(true);
 });
 
-it('JavaScriptTypeEnum::cases()', function (): void {
-    expect(array_map(fn (JavaScriptTypeEnum $case): string => $case->value, JavaScriptTypeEnum::cases()))->toEqual([
-       'null',
-       'undefined',
-       'boolean',
-       'number',
-       'string',
-       'symbol',
-       'bigint',
-       'object',
-       'unknown',
+it('JavaScriptTypeEnum::values()', function (): void {
+    expect(JavaScriptTypeEnum::values())->toEqual([
+        'null',
+        'undefined',
+        'boolean',
+        'number',
+        'string',
+        'symbol',
+        'bigint',
+        'object',
+        'unknown',
     ]);
 });
 
