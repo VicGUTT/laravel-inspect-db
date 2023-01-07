@@ -32,7 +32,7 @@ class ForeignKeyCollection extends EntityCollection
      */
     protected function arrayableItemsToEntities(array $items): array
     {
-        return array_reduce($items, function (array $acc, ForeignKeySchema|ForeignKey $item): array {
+        return array_reduce($items, static function (array $acc, ForeignKeySchema|ForeignKey $item): array {
             if (!($item instanceof ForeignKey)) {
                 $item = ForeignKey::make($item);
             }

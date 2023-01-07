@@ -8,7 +8,6 @@ use JsonSerializable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use VicGutt\InspectDb\Types\DoctrineTypeEnum;
 use VicGutt\InspectDb\Exceptions\TypeException;
 
 /**

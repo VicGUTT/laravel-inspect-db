@@ -38,6 +38,6 @@ abstract class EntityCollection extends Collection
      */
     public function toArray(): array
     {
-        return array_map(fn (Entity $item): array => $item->toArray(), $this->items);
+        return array_map(static fn (Entity $item): array => $item->toArray(), $this->items);
     }
 }

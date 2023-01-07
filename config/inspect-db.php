@@ -8,7 +8,6 @@ use VicGutt\InspectDb\Types\JavaScriptTypeEnum;
 
 return [
     'doctrine_type' => [
-
         'from' => [
             'php' => [
                 PhpTypeEnum::NULL->value     => DoctrineTypeEnum::UNKNOWN->value,

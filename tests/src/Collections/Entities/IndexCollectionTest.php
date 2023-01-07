@@ -12,7 +12,10 @@ it('extends `VicGutt\InspectDb\Collections\Entities\EntityCollection`', function
 });
 
 it('only accepts `IndexSchema|Index` to be passed in as as collection items', function (): void {
-    expect(fn () => IndexCollection::make(['nope']))->toThrow(TypeError::class, 'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\Index|VicGutt\InspectDb\Entities\Index, string given');
+    expect(static fn () => IndexCollection::make(['nope']))->toThrow(
+        TypeError::class,
+        'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\Index|VicGutt\InspectDb\Entities\Index, string given',
+    );
 });
 
 it('only `Index` are set as collection items', function (): void {

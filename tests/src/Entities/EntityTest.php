@@ -17,7 +17,8 @@ final class Child extends Entity
 
     public function schema(): AbstractAsset
     {
-        return new class () extends AbstractAsset {};
+        return new class () extends AbstractAsset {
+        };
     }
 }
 
@@ -94,13 +95,13 @@ it('can be used as an array | offsetGet', function () use ($params): void {
 
     expect($child['id'])->toEqual(1);
     expect($child['name'])->toEqual('the child');
-    expect(fn () => $child['nope'])->toThrow(ErrorException::class, 'Undefined property: Child::$nope');
+    expect(static fn () => $child['nope'])->toThrow(ErrorException::class, 'Undefined property: Child::$nope');
 });
 
 it('can be used as an array | offsetSet', function () use ($params): void {
     $child = new Child(...$params);
 
-    expect(fn () => $child['id'] = 2)->toThrow(Error::class, 'Cannot modify readonly property Child::$id');
+    expect(static fn () => $child['id'] = 2)->toThrow(Error::class, 'Cannot modify readonly property Child::$id');
 
     $child['name'] = 'changed';
 
@@ -114,7 +115,7 @@ it('can be used as an array | offsetSet', function () use ($params): void {
 it('can be used as an array | offsetUnset - __unset', function () use ($params): void {
     $child = new Child(...$params);
 
-    expect(function () use ($child): void {
+    expect(static function () use ($child): void {
         unset($child['id']);
     })->toThrow(Error::class, 'Cannot unset readonly property Child::$id');
 
@@ -148,8 +149,16 @@ it('can be used as an array | offsetUnset - __unset', function () use ($params):
     expect(property_exists($child, 'name'))->toEqual(true);
 
     $properties = (new ReflectionClass($child))->getProperties(ReflectionProperty::IS_PUBLIC);
-    expect(array_map(fn (ReflectionProperty $prop): string => $prop->getName(), $properties))->toEqual(['id', 'name', 'data']);
+    expect(
+        array_map(
+            static fn (ReflectionProperty $prop): string => $prop->getName(),
+            $properties,
+        ),
+    )->toEqual(['id', 'name', 'data']);
 
     // The property's value is unset but not the property itself.
-    expect(fn () => $child->name)->toThrow(Error::class, 'Typed property Child::$name must not be accessed before initialization');
+    expect(static fn () => $child->name)->toThrow(
+        Error::class,
+        'Typed property Child::$name must not be accessed before initialization',
+    );
 });

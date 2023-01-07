@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace VicGutt\InspectDb\Types;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\DBAL\Types\Type as DoctrineType;
-use VicGutt\InspectDb\Types\DoctrineTypeEnum;
 use VicGutt\PhpEnhancedEnum\Concerns\Enumerable;
 use VicGutt\InspectDb\Contracts\Types\TypeEnumContract;
 

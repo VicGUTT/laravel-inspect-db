@@ -69,9 +69,34 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
         return self::fromDoctrineType($type);
     }
 
+    public static function fromString(string $type): self
+    {
+        return self::tryFrom($type) ?: self::UNKNOWN;
+    }
+
+    public static function fromPhp(PhpTypeEnum $type): self
+    {
+        return self::from(config('inspect-db.doctrine_type.from.php')[$type->value]);
+    }
+
+    public static function fromJavascript(JavaScriptTypeEnum $type): self
+    {
+        return self::from(config('inspect-db.doctrine_type.from.javascript')[$type->value]);
+    }
+
     private static function fromDoctrineType(DoctrineType $type): self
     {
-        return match ($type::class) {
+        /**
+         * This variable exists only so PHPStan
+         * can treat it as a regular string and not a
+         * `class-string<Doctrine\DBAL\Types\Type>`.
+         *
+         * Otherwise PHPStan trips over the types not
+         * directy extending `Doctrine\DBAL\Types\Type`.
+         */
+        $class = $type::class;
+
+        return match ($class) {
             AsciiStringType::class => self::ASCII_STRING,
             BigIntType::class => self::BIGINT,
             BinaryType::class => self::BINARY,
@@ -95,22 +120,8 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
             TextType::class => self::TEXT,
             TimeType::class => self::TIME,
             TimeImmutableType::class => self::TIME_IMMUTABLE,
+            default => self::UNKNOWN,
         };
-    }
-
-    public static function fromString(string $type): self
-    {
-        return self::tryFrom($type) ?: self::UNKNOWN;
-    }
-
-    public static function fromPhp(PhpTypeEnum $type): self
-    {
-        return self::from(config('inspect-db.doctrine_type.from.php')[$type->value]);
-    }
-
-    public static function fromJavascript(JavaScriptTypeEnum $type): self
-    {
-        return self::from(config('inspect-db.doctrine_type.from.javascript')[$type->value]);
     }
 
     public function toPhp(): PhpTypeEnum

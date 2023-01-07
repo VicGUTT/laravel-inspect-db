@@ -12,7 +12,10 @@ it('extends `VicGutt\InspectDb\Collections\Entities\EntityCollection`', function
 });
 
 it('only accepts `ColumnSchema|Column` to be passed in as as collection items', function (): void {
-    expect(fn () => ColumnCollection::make(['nope']))->toThrow(TypeError::class, 'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\Column|VicGutt\InspectDb\Entities\Column, string given');
+    expect(static fn () => ColumnCollection::make(['nope']))->toThrow(
+        TypeError::class,
+        'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\Column|VicGutt\InspectDb\Entities\Column, string given',
+    );
 });
 
 it('only `Column` are set as collection items', function (): void {

@@ -32,7 +32,7 @@ class ColumnCollection extends EntityCollection
      */
     protected function arrayableItemsToEntities(array $items): array
     {
-        return array_reduce($items, function (array $acc, ColumnSchema|Column $item): array {
+        return array_reduce($items, static function (array $acc, ColumnSchema|Column $item): array {
             if (!($item instanceof Column)) {
                 $item = Column::make($item);
             }

@@ -12,7 +12,10 @@ it('extends `VicGutt\InspectDb\Collections\Entities\EntityCollection`', function
 });
 
 it('only accepts `ForeignKeySchema|ForeignKey` to be passed in as as collection items', function (): void {
-    expect(fn () => ForeignKeyCollection::make(['nope']))->toThrow(TypeError::class, 'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\ForeignKeyConstraint|VicGutt\InspectDb\Entities\ForeignKey, string given');
+    expect(static fn () => ForeignKeyCollection::make(['nope']))->toThrow(
+        TypeError::class,
+        'Argument #2 ($item) must be of type Doctrine\DBAL\Schema\ForeignKeyConstraint|VicGutt\InspectDb\Entities\ForeignKey, string given',
+    );
 });
 
 it('only `ForeignKey` are set as collection items', function (): void {

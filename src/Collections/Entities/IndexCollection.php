@@ -32,7 +32,7 @@ class IndexCollection extends EntityCollection
      */
     protected function arrayableItemsToEntities(array $items): array
     {
-        return array_reduce($items, function (array $acc, IndexSchema|Index $item): array {
+        return array_reduce($items, static function (array $acc, IndexSchema|Index $item): array {
             if (!($item instanceof Index)) {
                 $item = Index::make($item);
             }

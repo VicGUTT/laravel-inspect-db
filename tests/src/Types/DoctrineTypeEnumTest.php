@@ -148,25 +148,25 @@ it('DoctrineTypeEnum::fromString()', function (): void {
 
 it('DoctrineTypeEnum::fromPhp()', function (PhpTypeEnum $type): void {
     expect(DoctrineTypeEnum::fromPhp($type))->toEqual(
-        DoctrineTypeEnum::from(config('inspect-db.doctrine_type.from.php')[$type->value])
+        DoctrineTypeEnum::from(config('inspect-db.doctrine_type.from.php')[$type->value]),
     );
 })->with(PhpTypeEnum::cases());
 
 it('DoctrineTypeEnum::fromJavascript()', function (JavaScriptTypeEnum $type): void {
     expect(DoctrineTypeEnum::fromJavascript($type))->toEqual(
-        DoctrineTypeEnum::from(config('inspect-db.doctrine_type.from.javascript')[$type->value])
+        DoctrineTypeEnum::from(config('inspect-db.doctrine_type.from.javascript')[$type->value]),
     );
 })->with(JavaScriptTypeEnum::cases());
 
 it('DoctrineTypeEnum::toPhp()', function (DoctrineTypeEnum $type): void {
     expect($type->toPhp())->toEqual(
-        PhpTypeEnum::from(config('inspect-db.doctrine_type.to.php')[$type->value])
+        PhpTypeEnum::from(config('inspect-db.doctrine_type.to.php')[$type->value]),
     );
 })->with(DoctrineTypeEnum::cases());
 
 it('DoctrineTypeEnum::toJavascript()', function (DoctrineTypeEnum $type): void {
     expect($type->toJavascript())->toEqual(
-        JavaScriptTypeEnum::from(config('inspect-db.doctrine_type.to.javascript')[$type->value])
+        JavaScriptTypeEnum::from(config('inspect-db.doctrine_type.to.javascript')[$type->value]),
     );
 })->with(DoctrineTypeEnum::cases());
 
