@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace VicGutt\InspectDb\Tests;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\File;
@@ -24,15 +23,17 @@ abstract class TestCase extends Orchestra
     {
         config()->set('database.default', self::DEFAULT_CONNECTION);
         config()->set('database.connections.sqlite.database', $this->getTestSupportDirectory('/database/database.sqlite'));
-        config()->set('database.connections.mysql', array_merge(config('database.connections.mysql'), [
+        config()->set('database.connections.mysql', [
+            ...config('database.connections.mysql'),
             'database' => 'laravel_inspect_db_testing',
             'username' => 'root',
-        ]));
-        config()->set('database.connections.pgsql', array_merge(config('database.connections.pgsql'), [
+        ]);
+        config()->set('database.connections.pgsql', [
+            ...config('database.connections.pgsql'),
             'database' => 'laravel_inspect_db_testing',
             'username' => 'postgres',
             'password' => 'root',
-        ]));
+        ]);
 
         $this->loadMigrations();
     }
@@ -61,17 +62,9 @@ abstract class TestCase extends Orchestra
 
     protected function loadMigrationsFromConnection(Connection $connection): void
     {
+        $connection->getSchemaBuilder()->dropAllTables();
+
         foreach (File::files($this->getTestSupportDirectory('/database/migrations')) as $file) {
-            $tableName = Str::between($file->getFilename(), 'create_', '_table');
-
-            if ($connection->getSchemaBuilder()->hasTable($tableName)) {
-                // \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
-                // \Illuminate\Support\Facades\Schema::drop($tableName);
-                // \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
-
-                continue;
-            }
-
             config()->set('database.default', $connection->getName());
 
             (include $file->getRealPath())->up($connection->getName());
