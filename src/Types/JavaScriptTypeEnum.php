@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace VicGutt\InspectDb\Types;
 
+use VicGutt\InspectDb\Types\PhpTypeEnum;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use VicGutt\InspectDb\Types\JavaScriptTypeEnum;
 use VicGutt\PhpEnhancedEnum\Concerns\Enumerable;
 use VicGutt\InspectDb\Contracts\Types\TypeEnumContract;
 
@@ -22,31 +24,17 @@ enum JavaScriptTypeEnum: string implements TypeEnumContract
     case OBJECT = 'object';
     case UNKNOWN = 'unknown';
 
-    public static function fromDoctrineType(DoctrineType $type): self
+    public static function fromDoctrine(DoctrineType|DoctrineTypeEnum $type): self
     {
-        // @phpstan-ignore-next-line Yeah yeah I know it's deprecated
-        return self::fromString($type->getName());
+        return DoctrineTypeEnum::fromDoctrine($type)->toJavascript();
     }
 
     public static function fromString(string $type): self
     {
-        $value = match ($type) {
-            'null' => JavaScriptTypeEnum::NULL,
-            'undefined' => JavaScriptTypeEnum::UNDEFINED,
-            'boolean' => JavaScriptTypeEnum::BOOLEAN,
-            'number' => JavaScriptTypeEnum::NUMBER,
-            'string' => JavaScriptTypeEnum::STRING,
-            'symbol' => JavaScriptTypeEnum::SYMBOL,
-            'bigint' => JavaScriptTypeEnum::BIGINT,
-            'object' => JavaScriptTypeEnum::OBJECT,
-            default => JavaScriptTypeEnum::UNKNOWN,
-        };
-
-        if ($value !== JavaScriptTypeEnum::UNKNOWN) {
-            return $value;
-        }
-
-        return self::fromPhp(PhpTypeEnum::fromString($type));
+        return self::tryFrom($type)
+            ?: DoctrineTypeEnum::tryFrom($type)?->toJavascript()
+            ?: PhpTypeEnum::tryFrom($type)?->toJavascript()
+            ?: self::UNKNOWN;
     }
 
     public static function fromPhp(PhpTypeEnum $type): self
@@ -65,13 +53,12 @@ enum JavaScriptTypeEnum: string implements TypeEnumContract
             JavaScriptTypeEnum::NULL => PhpTypeEnum::NULL,
             JavaScriptTypeEnum::UNDEFINED => PhpTypeEnum::NULL,
             JavaScriptTypeEnum::BOOLEAN => PhpTypeEnum::BOOL,
-            JavaScriptTypeEnum::NUMBER => PhpTypeEnum::INT,
+            JavaScriptTypeEnum::NUMBER => PhpTypeEnum::FLOAT,
             JavaScriptTypeEnum::STRING => PhpTypeEnum::STRING,
             JavaScriptTypeEnum::SYMBOL => PhpTypeEnum::STRING,
             JavaScriptTypeEnum::BIGINT => PhpTypeEnum::STRING,
             JavaScriptTypeEnum::OBJECT => PhpTypeEnum::OBJECT,
             JavaScriptTypeEnum::UNKNOWN => PhpTypeEnum::UNKNOWN,
-            default => PhpTypeEnum::UNKNOWN,
         };
     }
 
@@ -82,17 +69,10 @@ enum JavaScriptTypeEnum: string implements TypeEnumContract
 
     public function raw(): ?string
     {
-        return match ($this) {
-            JavaScriptTypeEnum::NULL => JavaScriptTypeEnum::NULL->value,
-            JavaScriptTypeEnum::UNDEFINED => JavaScriptTypeEnum::UNDEFINED->value,
-            JavaScriptTypeEnum::BOOLEAN => JavaScriptTypeEnum::BOOLEAN->value,
-            JavaScriptTypeEnum::NUMBER => JavaScriptTypeEnum::NUMBER->value,
-            JavaScriptTypeEnum::STRING => JavaScriptTypeEnum::STRING->value,
-            JavaScriptTypeEnum::SYMBOL => JavaScriptTypeEnum::SYMBOL->value,
-            JavaScriptTypeEnum::BIGINT => JavaScriptTypeEnum::BIGINT->value,
-            JavaScriptTypeEnum::OBJECT => JavaScriptTypeEnum::OBJECT->value,
-            JavaScriptTypeEnum::UNKNOWN => null,
-            default => null,
-        };
+        if ($this->value === self::UNKNOWN->value) {
+            return null;
+        }
+
+        return $this->value;
     }
 }

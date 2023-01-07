@@ -103,7 +103,7 @@ class Column extends Entity
         $this->setProperties($schema->getPlatformOptions(), ['collation' => null, 'charset' => null]);
 
         $this->name = $schema->getName();
-        $this->type = Type::fromDoctrineType($schema->getType());
+        $this->type = Type::fromDoctrine($schema->getType());
         $this->length = $schema->getLength();
         $this->precision = $schema->getPrecision();
         $this->scale = $schema->getScale();

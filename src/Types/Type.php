@@ -8,6 +8,7 @@ use JsonSerializable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use VicGutt\InspectDb\Types\DoctrineTypeEnum;
 use VicGutt\InspectDb\Exceptions\TypeException;
 
 /**
@@ -19,19 +20,23 @@ class Type implements Arrayable, Jsonable, JsonSerializable
     {
     }
 
-    public static function make(DoctrineType|string $type): self
+    public static function make(DoctrineType|DoctrineTypeEnum|string $type): self
     {
-        if ($type instanceof DoctrineType) {
-            return self::fromDoctrineType($type);
+        if (is_string($type)) {
+            return new self($type);
         }
 
-        return new self($type);
+        return self::fromDoctrine($type);
     }
 
-    public static function fromDoctrineType(DoctrineType $type): self
+    public static function fromDoctrine(DoctrineType|DoctrineTypeEnum $type): self
     {
-        // @phpstan-ignore-next-line Yeah yeah I know it's deprecated
-        return new self($type->getName());
+        return new self(DoctrineTypeEnum::fromDoctrine($type)->value);
+    }
+
+    public function toDoctrine(): ?string
+    {
+        return DoctrineTypeEnum::fromString($this->value)->raw();
     }
 
     public function toPhp(): ?string
@@ -51,6 +56,7 @@ class Type implements Arrayable, Jsonable, JsonSerializable
     {
         return [
             'value' => $this->value,
+            'doctrine' => $this->toDoctrine(),
             'php' => $this->toPhp(),
             'javascript' => $this->toJavascript(),
         ];
@@ -85,6 +91,6 @@ class Type implements Arrayable, Jsonable, JsonSerializable
      */
     public function __toString(): string
     {
-        return $this->toJson();
+        return $this->value;
     }
 }
