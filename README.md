@@ -50,6 +50,14 @@ You can install the package via composer:
 composer require vicgutt/laravel-inspect-db
 ```
 
+You can publish the config file with:
+
+```bash
+php artisan vendor:publish --tag="laravel-inspect-db-config"
+```
+
+You can check out what the contents of the published config file will be here: [config/inspect-db.php](/config/inspect-db.php)
+
 ## Inspect
 
 The `VicGutt\InspectDb\Inspect` class is the main entry point of the package. It allows you to retrieve information about tables, a table's columns, it's indexes and foreign keys.
@@ -147,10 +155,11 @@ Here, as no database connection was specified as third argument, the default con
 The collections provided by this package all extend the abstract `VicGutt\InspectDb\Collections\Entities\EntityCollection` class which itself extends from the default Laravel collection _(`Illuminate\Support\Collection`)_.
 
 The available collections are:
-- VicGutt\InspectDb\Collections\Entities\\`TableCollection`
-- VicGutt\InspectDb\Collections\Entities\\`ColumnCollection`
-- VicGutt\InspectDb\Collections\Entities\\`IndexCollection`
-- VicGutt\InspectDb\Collections\Entities\\`ForeignKeyCollection`
+
+-   VicGutt\InspectDb\Collections\Entities\\`TableCollection`
+-   VicGutt\InspectDb\Collections\Entities\\`ColumnCollection`
+-   VicGutt\InspectDb\Collections\Entities\\`IndexCollection`
+-   VicGutt\InspectDb\Collections\Entities\\`ForeignKeyCollection`
 
 The above collections differ slightly from the default Laravel collection and behavior you might be used to. That is, our collections internal items can only ever be an array of the entities they represent. As an example, the `TableCollection` items can only ever be an array of `Table`s.
 
@@ -180,19 +189,23 @@ This behavior, although admittedly surprising, helps guarantee a collection of X
 ## Entities
 
 Entities are meant to represent units present in a given database.
+
 <!-- or the database itself (--\> for when we can do Inspect::database(...)) -->
+
 The available entities are:
-- [VicGutt\InspectDb\Entities\\`Table`](/src/Entities/Table.php)
-- [VicGutt\InspectDb\Entities\\`Column`](/src/Entities/Column.php)
-- [VicGutt\InspectDb\Entities\\`Index`](/src/Entities/Index.php)
-- [VicGutt\InspectDb\Entities\\`ForeignKey`](/src/Entities/ForeignKey.php)
+
+-   [VicGutt\InspectDb\Entities\\`Table`](/src/Entities/Table.php)
+-   [VicGutt\InspectDb\Entities\\`Column`](/src/Entities/Column.php)
+-   [VicGutt\InspectDb\Entities\\`Index`](/src/Entities/Index.php)
+-   [VicGutt\InspectDb\Entities\\`ForeignKey`](/src/Entities/ForeignKey.php)
 
 Click on any of the listed entities above to learn more about the exposed properties and methods.
 
 ---
 
 ### TODO:
-- Setup GitHub action test workflow
+
+-   Setup GitHub action test workflow
 
 ---
 

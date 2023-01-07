@@ -53,7 +53,10 @@
             "Composer\\Config::disableProcessTimeout",
             "vendor/bin/pest"
         ],
-        "test:coverage": "vendor/bin/pest --coverage --min=90",
+        "test:coverage": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/pest --coverage --min=90"
+        ],
         "test:[filtered]": "vendor/bin/pest --filter=ColumnTest",
         "format": "vendor/bin/pint --test",
         "format:fix": "vendor/bin/pint",

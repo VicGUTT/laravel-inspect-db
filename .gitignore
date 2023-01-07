@@ -12,6 +12,7 @@ testbench.yaml
 /dist
 /dist-ssr
 /tests/TestSupport/database/database.sqlite
+/tests/TestSupport/database/database.sqlite-journal
 /coverage
 /.coverage
 /.results
