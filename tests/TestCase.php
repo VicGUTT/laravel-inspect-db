@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
+use VicGutt\InspectDb\InspectDbServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -34,6 +35,19 @@ abstract class TestCase extends Orchestra
         ]));
 
         $this->loadMigrations();
+    }
+
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string>
+     */
+    protected function getPackageProviders($app): array
+    {
+        return [
+            InspectDbServiceProvider::class,
+        ];
     }
 
     protected function loadMigrations(): void

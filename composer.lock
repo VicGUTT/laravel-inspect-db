@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f202ca09365e08d6226a6493719c0809",
+    "content-hash": "fcbe235dc8ea0353f685b7fa72361d14",
     "packages": [
         {
             "name": "brick/math",
@@ -4626,6 +4626,61 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.4"
             },
             "time": "2021-12-08T09:12:39+00:00"
+        },
+        {
+            "name": "vicgutt/php-enhanced-enum",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VicGUTT/php-enhanced-enum.git",
+                "reference": "940a5b4444d4172659e0ebc27ad977e69730175e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VicGUTT/php-enhanced-enum/zipball/940a5b4444d4172659e0ebc27ad977e69730175e",
+                "reference": "940a5b4444d4172659e0ebc27ad977e69730175e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "pestphp/pest": "^1.21",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VicGutt\\PhpEnhancedEnum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Victor GUTT",
+                    "email": "guttvictor@yahoo.fr",
+                    "homepage": "https://victorgutt.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Enhances PHP's native enums with convenient methods",
+            "homepage": "https://github.com/vicgutt/php-enhanced-enum",
+            "keywords": [
+                "enum",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/VicGUTT/php-enhanced-enum/issues",
+                "source": "https://github.com/VicGUTT/php-enhanced-enum/tree/v0.1.0"
+            },
+            "time": "2022-11-05T16:24:04+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
