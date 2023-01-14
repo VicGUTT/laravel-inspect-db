@@ -205,12 +205,6 @@ Click on any of the listed entities above to learn more about the exposed proper
 
 ---
 
-### TODO:
-
--   Setup GitHub action test workflow
-
----
-
 ## Testing
 
 ```bash
