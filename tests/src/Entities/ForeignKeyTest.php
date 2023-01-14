@@ -67,6 +67,15 @@ it('ForeignKey::$options', function (string $connection): void {
         return;
     }
 
+    if ($connection === 'mysql' && $this->runningInGithubCi) {
+        expect($foreignKey->options)->toEqual([
+            'onDelete' => 'NO ACTION',
+            'onUpdate' => 'NO ACTION',
+        ]);
+
+        return;
+    }
+
     expect($foreignKey->options)->toEqual(['onDelete' => null, 'onUpdate' => null]);
 })->with('connections');
 

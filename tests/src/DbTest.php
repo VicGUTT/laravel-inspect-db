@@ -31,21 +31,23 @@ it("can retrieve a connection's Doctrine Schema Manager", function (string $conn
 
     $tables = Db::schema($connection)->listTableNames();
 
-    sort($tables);
-
-    expect($tables)->toEqual(['media', 'posts', 'users']);
+    expect($tables)->toEqualCanonicalizing(['media', 'posts', 'users']);
 })->with('connections');
 
 it("can retrieve a connection's Doctrine Schema Manager from a given connection", function (string $connection): void {
     $schema = Db::schema(Db::connection($connection));
     $tables = $schema->listTableNames();
 
-    sort($tables);
-
-    expect($tables)->toEqual(['media', 'posts', 'users']);
+    expect($tables)->toEqualCanonicalizing(['media', 'posts', 'users']);
 
     if ($connection !== 'sqlite') {
         expect(invade($schema)->_conn->getDatabase())->toEqual(config("database.connections.{$connection}.database"));
+
+        return;
+    }
+
+    if ($this->runningInGithubCi) {
+        expect(invade($schema)->_conn->getDatabase())->toEqual('main');
 
         return;
     }
@@ -64,31 +66,27 @@ it("uses the default database connection by default to retrieve a connection's D
 it("can retrieve the connection's tables", function (string $connection): void {
     $tables = array_map(fn (TableSchema $table): string => $table->getName(), Db::tables($connection));
 
-    sort($tables);
-
-    expect($tables)->toEqual(['media', 'posts', 'users']);
+    expect($tables)->toEqualCanonicalizing(['media', 'posts', 'users']);
 })->with('connections');
 
 it("can retrieve the connection's tables from a given connection", function (string $connection): void {
     $tables = Db::tables(Db::connection($connection));
     $tables = array_map(fn (TableSchema $table): string => $table->getName(), $tables);
 
-    sort($tables);
-
-    expect($tables)->toEqual(['media', 'posts', 'users']);
+    expect($tables)->toEqualCanonicalizing(['media', 'posts', 'users']);
 })->with('connections');
 
 it("can retrieve the connection's tables from a given Doctrine Schema Manager", function (string $connection): void {
     $tables = Db::tables(Db::connection($connection));
     $tables = array_map(fn (TableSchema $table): string => $table->getName(), $tables);
 
-    sort($tables);
-
-    expect($tables)->toEqual(['media', 'posts', 'users']);
+    expect($tables)->toEqualCanonicalizing(['media', 'posts', 'users']);
 })->with('connections');
 
 it("uses the default database connection by default to retrieve a connection's tables", function (): void {
-    expect(array_map(fn (TableSchema $table): string => $table->getName(), Db::tables()))->toEqual(['media', 'posts', 'users']);
+    expect(
+        array_map(fn (TableSchema $table): string => $table->getName(), Db::tables()),
+    )->toEqualCanonicalizing(['media', 'posts', 'users']);
 });
 
 it("can retrieve a table from a given connection", function (string $connection): void {

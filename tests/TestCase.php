@@ -14,7 +14,9 @@ abstract class TestCase extends Orchestra
 {
     protected const DEFAULT_CONNECTION = 'mysql';
 
-    protected static $migrationsLoaded = false;
+    protected static bool $migrationsLoaded = false;
+
+    protected bool $runningInGithubCi = false;
 
     /**
      * Define environment setup.
@@ -92,6 +94,8 @@ abstract class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->runningInGithubCi = env('GITHUB_CI', false);
 
         if (self::$migrationsLoaded) {
             return;
