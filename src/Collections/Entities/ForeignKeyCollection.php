@@ -28,7 +28,7 @@ class ForeignKeyCollection extends EntityCollection
      * Converts items into Entities.
      *
      * @param  array<array-key, ForeignKeySchema|ForeignKey>  $items
-     * @return ForeignKey[]
+     * @return array<string, ForeignKey>
      */
     protected function arrayableItemsToEntities(array $items): array
     {

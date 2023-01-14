@@ -35,17 +35,17 @@ class Type implements Arrayable, Jsonable, JsonSerializable
 
     public function toDoctrine(): ?string
     {
-        return DoctrineTypeEnum::fromString($this->value)->raw();
+        return DoctrineTypeEnum::fromString((string) $this->value)->raw();
     }
 
     public function toPhp(): ?string
     {
-        return PhpTypeEnum::fromString($this->value)->raw();
+        return PhpTypeEnum::fromString((string) $this->value)->raw();
     }
 
     public function toJavascript(): ?string
     {
-        return JavaScriptTypeEnum::fromString($this->value)->raw();
+        return JavaScriptTypeEnum::fromString((string) $this->value)->raw();
     }
 
     /**
@@ -70,7 +70,7 @@ class Type implements Arrayable, Jsonable, JsonSerializable
     {
         $json = json_encode($this->jsonSerialize(), $options);
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
+        if (!$json || JSON_ERROR_NONE !== json_last_error()) {
             throw TypeException::jsonUnencodable($this); // @codeCoverageIgnore
         }
 

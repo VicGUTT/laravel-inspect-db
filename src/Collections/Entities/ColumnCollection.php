@@ -28,7 +28,7 @@ class ColumnCollection extends EntityCollection
      * Converts items into Entities.
      *
      * @param  array<array-key, ColumnSchema|Column>  $items
-     * @return Column[]
+     * @return array<string, Column>
      */
     protected function arrayableItemsToEntities(array $items): array
     {

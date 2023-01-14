@@ -28,7 +28,7 @@ class TableCollection extends EntityCollection
      * Converts items into Entities.
      *
      * @param  array<array-key, TableSchema|Table>  $items
-     * @return Table[]
+     * @return array<string, Table>
      */
     protected function arrayableItemsToEntities(array $items): array
     {

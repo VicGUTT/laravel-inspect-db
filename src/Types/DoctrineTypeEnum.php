@@ -76,12 +76,12 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
 
     public static function fromPhp(PhpTypeEnum $type): self
     {
-        return self::from(config('inspect-db.doctrine_type.from.php')[$type->value]);
+        return self::from(self::config()['from']['php'][$type->value]);
     }
 
     public static function fromJavascript(JavaScriptTypeEnum $type): self
     {
-        return self::from(config('inspect-db.doctrine_type.from.javascript')[$type->value]);
+        return self::from(self::config()['from']['javascript'][$type->value]);
     }
 
     private static function fromDoctrineType(DoctrineType $type): self
@@ -126,12 +126,12 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
 
     public function toPhp(): PhpTypeEnum
     {
-        return PhpTypeEnum::from(config('inspect-db.doctrine_type.to.php')[$this->value]);
+        return PhpTypeEnum::from(self::config()['to']['php'][$this->value]);
     }
 
     public function toJavascript(): JavaScriptTypeEnum
     {
-        return JavaScriptTypeEnum::from(config('inspect-db.doctrine_type.to.javascript')[$this->value]);
+        return JavaScriptTypeEnum::from(self::config()['to']['javascript'][$this->value]);
     }
 
     public function raw(): ?string
@@ -141,5 +141,11 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
         }
 
         return $this->value;
+    }
+
+    protected static function config(): array
+    {
+        /** @var array */
+        return config('inspect-db.doctrine_type');
     }
 }

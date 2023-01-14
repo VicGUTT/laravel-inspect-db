@@ -28,7 +28,7 @@ class IndexCollection extends EntityCollection
      * Converts items into Entities.
      *
      * @param  array<array-key, IndexSchema|Index>  $items
-     * @return Index[]
+     * @return array<string, Index>
      */
     protected function arrayableItemsToEntities(array $items): array
     {
