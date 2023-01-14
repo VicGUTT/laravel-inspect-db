@@ -25,14 +25,15 @@ abstract class TestCase extends Orchestra
         config()->set('database.connections.sqlite.database', $this->getTestSupportDirectory('/database/database.sqlite'));
         config()->set('database.connections.mysql', [
             ...config('database.connections.mysql'),
-            'database' => 'laravel_inspect_db_testing',
-            'username' => 'root',
+            'database' => env('DB_MYSQL_DATABASE', 'laravel_inspect_db_testing'),
+            'username' => env('DB_MYSQL_USER', 'root'),
+            'password' => env('DB_MYSQL_PASSWORD', null),
         ]);
         config()->set('database.connections.pgsql', [
             ...config('database.connections.pgsql'),
-            'database' => 'laravel_inspect_db_testing',
-            'username' => 'postgres',
-            'password' => 'root',
+            'database' => env('DB_POSTGRES_DATABASE', 'laravel_inspect_db_testing'),
+            'username' => env('DB_POSTGRES_USER', 'postgres'),
+            'password' => env('DB_POSTGRES_PASSWORD', 'root'),
         ]);
 
         $this->loadMigrations();

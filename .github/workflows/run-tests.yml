@@ -1,0 +1,78 @@
+name: run-tests
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - '**.php'
+    pull_request:
+        branches: [main]
+        paths:
+            - '**.php'
+
+jobs:
+    test:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: true
+            matrix:
+                os: [ubuntu-latest] # windows-latest
+                php: [8.1]
+                laravel: [9.*]
+                stability: [prefer-lowest, prefer-stable]
+                include:
+                    - laravel: 9.*
+                      testbench: 7.*
+                      carbon: ^2.63
+
+        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
+        env:
+            DB_MYSQL_DATABASE: laravel_inspect_db_testing
+            DB_MYSQL_USER: root
+            DB_MYSQL_PASSWORD: root
+
+            DB_POSTGRES_DATABASE: laravel_inspect_db_testing
+            DB_POSTGRES_USER: postgres
+            DB_POSTGRES_PASSWORD: root
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+                  coverage: none
+
+            - name: Setup problem matchers
+              run: |
+                  echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+                  echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            - name: Install dependencies
+              run: |
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
+                  composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+            - name: List Installed Dependencies
+              run: composer show -D
+
+            - name: Setup SQLite
+              run: touch tests/TestSupport/database/database.sqlite
+
+            - name: Setup MySQL
+              run: |
+                  sudo systemctl start mysql.service
+                  mysql -e 'CREATE DATABASE ${{ env.DB_MYSQL_DATABASE }};' -u${{ env.DB_MYSQL_USER }} -p${{ env.DB_MYSQL_PASSWORD }}
+
+            - name: Setup PostgreSQL
+              run: |
+                  sudo systemctl start postgresql.service
+                  sudo -u ${{ env.DB_POSTGRES_USER }} psql -c "ALTER USER ${{ env.DB_POSTGRES_USER }} PASSWORD '${{ env.DB_POSTGRES_PASSWORD }}';"
+                  sudo -u ${{ env.DB_POSTGRES_USER }} createdb ${{ env.DB_POSTGRES_DATABASE }};
+
+            - name: Execute tests
+              run: vendor/bin/pest
