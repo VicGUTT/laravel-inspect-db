@@ -6,6 +6,9 @@ namespace VicGutt\InspectDb\Exceptions;
 
 use VicGutt\InspectDb\Entities\Entity;
 
+/**
+ * @codeCoverageIgnore
+ */
 class EntityException extends InspectDbException
 {
     public static function jsonUnencodable(Entity $entity): self

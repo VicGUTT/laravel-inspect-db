@@ -89,7 +89,7 @@ abstract class Entity implements Arrayable, ArrayAccess, Jsonable, JsonSerializa
         $json = json_encode($this->jsonSerialize(), $options);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw EntityException::jsonUnencodable($this);
+            throw EntityException::jsonUnencodable($this); // @codeCoverageIgnore
         }
 
         return $json;

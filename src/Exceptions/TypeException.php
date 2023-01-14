@@ -6,6 +6,9 @@ namespace VicGutt\InspectDb\Exceptions;
 
 use VicGutt\InspectDb\Types\Type;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TypeException extends InspectDbException
 {
     public static function jsonUnencodable(Type $type): self

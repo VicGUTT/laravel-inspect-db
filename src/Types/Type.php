@@ -71,7 +71,7 @@ class Type implements Arrayable, Jsonable, JsonSerializable
         $json = json_encode($this->jsonSerialize(), $options);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw TypeException::jsonUnencodable($this);
+            throw TypeException::jsonUnencodable($this); // @codeCoverageIgnore
         }
 
         return $json;
