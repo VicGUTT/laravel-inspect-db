@@ -124,6 +124,12 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
         };
     }
 
+    private static function config(): array
+    {
+        /** @var array */
+        return config('inspect-db.doctrine_type');
+    }
+
     public function toPhp(): PhpTypeEnum
     {
         return PhpTypeEnum::from(self::config()['to']['php'][$this->value]);
@@ -141,11 +147,5 @@ enum DoctrineTypeEnum: string implements TypeEnumContract
         }
 
         return $this->value;
-    }
-
-    protected static function config(): array
-    {
-        /** @var array */
-        return config('inspect-db.doctrine_type');
     }
 }

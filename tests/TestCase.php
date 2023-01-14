@@ -17,20 +17,6 @@ abstract class TestCase extends Orchestra
     protected static $migrationsLoaded = false;
 
     /**
-     * Setup the test environment.
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        if (self::$migrationsLoaded) {
-            return;
-        }
-
-        $this->loadMigrations();
-    }
-
-    /**
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
@@ -98,5 +84,19 @@ abstract class TestCase extends Orchestra
     protected function getTestDirectory(string $path = ''): string
     {
         return str_replace(['\\', '//'], '/', realpath(__DIR__) . '/' . $path);
+    }
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (self::$migrationsLoaded) {
+            return;
+        }
+
+        $this->loadMigrations();
     }
 }
