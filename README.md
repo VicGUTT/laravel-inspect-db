@@ -1,10 +1,9 @@
 # Inspect and retrieve information about a given database
 
+[![GitHub Tests Action Status](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/run-tests.yml/badge.svg)](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/run-tests.yml)
+[![GitHub PHPStan Action Status](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/phpstan.yml/badge.svg)](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/phpstan.yml)
+[![GitHub Code Style Action Status](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/vicgutt/laravel-inspect-db/actions/workflows/fix-php-code-style-issues.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vicgutt/laravel-inspect-db.svg?style=flat-square)](https://packagist.org/packages/vicgutt/laravel-inspect-db)
-
-<!-- [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vicgutt/laravel-inspect-db/run-tests?label=tests)](https://github.com/vicgutt/laravel-inspect-db/actions?query=workflow%3Arun-tests+branch%3Amain) -->
-<!-- [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/vicgutt/laravel-inspect-db/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/vicgutt/laravel-inspect-db/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain) -->
-
 [![Total Downloads](https://img.shields.io/packagist/dt/vicgutt/laravel-inspect-db.svg?style=flat-square)](https://packagist.org/packages/vicgutt/laravel-inspect-db)
 
 ---
