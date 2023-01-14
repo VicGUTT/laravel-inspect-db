@@ -90,6 +90,6 @@ class Type implements Arrayable, Jsonable, JsonSerializable
      */
     public function __toString(): string
     {
-        return $this->value;
+        return (string) $this->value;
     }
 }
