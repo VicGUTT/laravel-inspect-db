@@ -49,14 +49,8 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse --memory-limit=1G",
         "lint": "composer analyse",
-        "test": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/pest"
-        ],
-        "test:coverage": [
-            "Composer\\Config::disableProcessTimeout",
-            "vendor/bin/pest --coverage --min=90"
-        ],
+        "test": "vendor/bin/pest",
+        "test:coverage": "vendor/bin/pest --coverage --min=90",
         "test:[filtered]": "vendor/bin/pest --filter=ColumnTest",
         "format": "vendor/bin/pint --test",
         "format:fix": "vendor/bin/pint",
