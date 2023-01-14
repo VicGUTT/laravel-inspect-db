@@ -14,6 +14,22 @@ abstract class TestCase extends Orchestra
 {
     protected const DEFAULT_CONNECTION = 'mysql';
 
+    protected static $migrationsLoaded = false;
+
+    /**
+     * Setup the test environment.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (self::$migrationsLoaded) {
+            return;
+        }
+
+        $this->loadMigrations();
+    }
+
     /**
      * Define environment setup.
      *
@@ -35,8 +51,6 @@ abstract class TestCase extends Orchestra
             'username' => env('DB_POSTGRES_USER', 'postgres'),
             'password' => env('DB_POSTGRES_PASSWORD', 'root'),
         ]);
-
-        $this->loadMigrations();
     }
 
     /**
@@ -59,6 +73,8 @@ abstract class TestCase extends Orchestra
         foreach ($connections as $connection) {
             $this->loadMigrationsFromConnection(DB::connection($connection));
         }
+
+        self::$migrationsLoaded = true;
     }
 
     protected function loadMigrationsFromConnection(Connection $connection): void
